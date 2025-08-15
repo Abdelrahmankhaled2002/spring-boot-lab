@@ -20,4 +20,4 @@ This eliminates the need for manually writing service and controller layers for 
 ## Example
 If you have an entity `Instructor` and a repository:
 ```java
-public interface InstructoRepository extends JpaRepository<Student, Long> { }
+public interface InstructorRepository extends JpaRepository<Instructor,Integer> {}
