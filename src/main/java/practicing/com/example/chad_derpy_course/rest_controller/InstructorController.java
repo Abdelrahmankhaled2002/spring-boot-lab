@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 public class InstructorController {
     InstructorService instructorService;
     ObjectMapper objectMapper;
@@ -19,8 +20,11 @@ public class InstructorController {
         this.objectMapper = objectMapper;
         this.instructorService = instructorService;
     }
-
-    @GetMapping("/getInstructor/{instructorId}")
+    @GetMapping("/instructors")
+    public List<Instructor> getAllInstructors() {
+        return instructorService.findAll();
+    }
+    @GetMapping("/instructors/{instructorId}")
     public Instructor getInstructor(@PathVariable int instructorId) {
         Instructor instructor = instructorService.findById(instructorId);
         if(instructor == null){
@@ -29,13 +33,10 @@ public class InstructorController {
             return instructor;
         }
     }
-    @GetMapping("/getAll")
-    public List<Instructor> getAllInstructors() {
-        return instructorService.findAll();
-    }
+
     @PostMapping("/instructors")
     public Instructor addInstructor(@RequestBody Instructor instructor) {
-        instructor.setInsId(0);
+//        instructor.setInsId(0);
         return instructorService.save(instructor);
     }
 
@@ -66,7 +67,7 @@ public class InstructorController {
         return  objectMapper.convertValue(InstructorNode,Instructor.class);
     }
 
-    @DeleteMapping("/instructor/{instructorId}")
+    @DeleteMapping("/instructors/{instructorId}")
     public String deleteEmployee(@PathVariable int instructorId) {
         Instructor tempInstructor=instructorService.findById(instructorId);
         if(tempInstructor == null){
