@@ -8,17 +8,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class DemoSecurityConfig {
     @Bean
-    public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails mohamed = User.builder().username("mohamed").password("{noop}mohamed").roles("EMPLOYEE").build();
-        UserDetails ahmed = User.builder().username("ahmed").password("{noop}ahmed").roles("EMPLOYEE", "MANAGER").build();
-        UserDetails shadi = User.builder().username("shadi").password("{noop}shadi").roles("EMPLOYEE", "MANAGER", "ADMIN").build();
-
-        return new InMemoryUserDetailsManager(mohamed,ahmed,shadi);
+    UserDetailsManager userDetailsManager(DataSource dataSource){
+        return new JdbcUserDetailsManager(dataSource);
     }
 
     @Bean
